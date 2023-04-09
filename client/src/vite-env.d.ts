@@ -6,4 +6,4 @@ interface ImportMetaEnv {
   readonly VITE_ACCESS_KEY: string
   readonly VITE_CLIENT_ID: string
   readonly VITE_DEVICE_ID: string
-  }
+}

@@ -8,12 +8,11 @@ const App = () => {
   const [fetchStatus, setFetchStatus] = useState<'init' | 'loading' | 'success'>('init')
 
   useLayoutEffect(() => {
-    (async () => {
+    ;(async () => {
       setFetchStatus('loading')
       await authenticate()
       setFetchStatus('success')
-    }
-    )()
+    })()
   }, [])
 
   return (
@@ -22,7 +21,9 @@ const App = () => {
         <div className={s.container}>
           <div className={s['header-wrapper']}>
             <div className={s.logo}>ЛОГОТИП</div>
-            <div className={s.info}><ArrowIcon /></div>
+            <div className={s.info}>
+              <ArrowIcon />
+            </div>
           </div>
         </div>
       </header>

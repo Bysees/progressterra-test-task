@@ -1,4 +1,4 @@
-import type { IBonusInfo, ResultOperation } from "../models"
+import type { IBonusInfo, ResultOperation } from '../models'
 
 const PROXY_URL = import.meta.env['VITE_PROXY_URL']
 const ACCESS_KEY = import.meta.env['VITE_ACCESS_KEY']
@@ -9,7 +9,7 @@ const ACCESS_TOKEN_ROUTE = 'api/v3/clients/accesstoken/'
 const BONUS_INFO_ROUTE = 'api/v3/ibonus/generalinfo/'
 
 type AuthenticateResponse = {
-  accessToken: string | null,
+  accessToken: string | null
   result: ResultOperation
 }
 
@@ -18,8 +18,8 @@ export const authenticate = async () => {
 
   const body = {
     idClient: CLIENT_ID,
-    accessToken: "",
-    paramName: "device",
+    accessToken: '',
+    paramName: 'device',
     paramValue: DEVICE_ID,
     latitude: 0,
     longitude: 0,
@@ -27,7 +27,7 @@ export const authenticate = async () => {
   }
 
   const headers = {
-    'AccessKey': ACCESS_KEY,
+    AccessKey: ACCESS_KEY,
     'Content-type': 'application/json'
   }
 
@@ -37,12 +37,12 @@ export const authenticate = async () => {
     headers
   })
 
-  const { accessToken } = await response.json() as AuthenticateResponse
+  const { accessToken } = (await response.json()) as AuthenticateResponse
 
-  if(accessToken) {
+  if (accessToken) {
     localStorage.setItem('token', accessToken)
   }
-  
+
   return accessToken
 }
 
@@ -53,11 +53,11 @@ type GetBonusInfoResponse = {
 
 export const getBonusInfo = async () => {
   const ACCESS_TOKEN = localStorage.getItem('token')
-  
+
   const url = `${PROXY_URL}${BONUS_INFO_ROUTE}${ACCESS_TOKEN}`
 
   const headers = {
-    'AccessKey': ACCESS_KEY,
+    AccessKey: ACCESS_KEY,
     'Content-type': 'application/json'
   }
 
@@ -66,8 +66,7 @@ export const getBonusInfo = async () => {
     headers
   })
 
-  const { data } = await response.json() as GetBonusInfoResponse
+  const { data } = (await response.json()) as GetBonusInfoResponse
 
   return data
 }
-

@@ -1,4 +1,4 @@
-$faded-red-gradient: linear-gradient(180deg, #D2333E 0%, #F54B55 100%);
+$faded-red-gradient: linear-gradient(180deg, #d2333e 0%, #f54b55 100%);
 $light-gray: #979797;
 
 .container {
@@ -40,9 +40,9 @@ $light-gray: #979797;
   box-shadow: 2px 2px 16px 0px #00000033;
 
   display: grid;
-  grid-template-areas: 
-  "title btn-wrapper"
-  "tip btn-wrapper";
+  grid-template-areas:
+    'title btn-wrapper'
+    'tip btn-wrapper';
   align-items: center;
   align-content: space-between;
   justify-content: space-between;
