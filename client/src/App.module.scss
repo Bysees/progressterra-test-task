@@ -1,0 +1,75 @@
+$faded-red-gradient: linear-gradient(180deg, #D2333E 0%, #F54B55 100%);
+$light-gray: #979797;
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.header {
+  height: 132px;
+}
+
+.header-wrapper {
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+
+  .logo {
+    font-size: 16px;
+  }
+}
+
+.main {
+  height: 148px;
+  background-image: $faded-red-gradient;
+}
+
+.bonus-wrapper {
+  margin: 0 auto;
+  padding: 20px;
+  height: 105px;
+  width: 335px;
+
+  position: relative;
+  transform: translateY(-50%);
+
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 2px 2px 16px 0px #00000033;
+
+  display: grid;
+  grid-template-areas: 
+  "title btn-wrapper"
+  "tip btn-wrapper";
+  align-items: center;
+  align-content: space-between;
+  justify-content: space-between;
+
+  .title {
+    grid-area: title;
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  .tip {
+    grid-area: tip;
+    font-size: 16px;
+    color: $light-gray;
+
+    .fireIcon {
+      margin: 0 5px;
+    }
+  }
+
+  .btn-wrapper {
+    grid-area: btn-wrapper;
+
+    & button {
+      width: 35px;
+      height: 35px;
+      background-color: transparent;
+    }
+  }
+}
