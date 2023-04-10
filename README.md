@@ -1,4 +1,4 @@
-
+## Dev
 ### Start proxy server 
 ```
 cd proxy
@@ -12,12 +12,20 @@ cd client
 yarn install
 yarn dev
 ```
-or 
+## Production
+
+### Build project 
 ```
 cd client
 yarn install
 yarn build
-yarn preview
+```
+
+### Start server
+```
+cd proxy
+yarn install
+yarn prod
 ```
 
 .env - *конфигурационный файл*

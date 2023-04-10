@@ -1,67 +1,31 @@
 import express from 'express'
-import fetch from 'node-fetch'
 import cors from 'cors'
+import path from 'path'
+import { authController, serviceController } from './controllers.js'
+import { __dirname } from './utils.js'
+
 const app = express()
+const PORT = 3010
+const isProduction = process.env.NODE_ENV === 'production'
+const isDevelopment = process.env.NODE_ENV === 'development'
 
-const API_URL = 'http://84.201.188.117'
-const TOKEN_PORT = 5021
-const SERVICE_PORT = 5003
+if(isProduction) {
+  const distPath = path.join(__dirname, '..', 'client', 'dist')
 
-const ACCESS_TOKEN_ROUTE = '/api/v3/clients/accesstoken'
+  try {
+    app.use(express.static(distPath))
+  } catch {
+    throw Error('You should build the project before start')
+  }
+}
+
+if(isDevelopment) {
+  app.use(cors())
+}
 
 app.use(express.json())
-app.use(cors())
+app.use('/', authController)
+app.use('/', serviceController)
 
-app.use('/', async (req, res, next) => {
-  const isAuthUrl = req.url.includes(ACCESS_TOKEN_ROUTE)
 
-  if (!isAuthUrl) {
-    return next()
-  }
-
-  const url = `${API_URL}:${TOKEN_PORT}${req.url}`
-
-  const headers = {
-    'AccessKey': req.headers['accesskey'],
-    'Content-type': req.headers['content-type']
-  }
-
-  const options = {
-    method: req.method,
-    headers,
-    body: JSON.stringify(req.body)
-  }
-
-  const response = await fetch(url, options)
-  const result = await response.json()
-
-  res.json(result)
-})
-
-app.use('/', async (req, res) => {
-  const url = `${API_URL}:${SERVICE_PORT}${req.url}`
-
-  const headers = {
-    'AccessKey': req.headers['accesskey'],
-    'Content-type': req.headers['content-type']
-  }
-
-  const options = {
-    headers
-  }
-
-  if (req.method === 'POST' || req.method === 'PUT') {
-    options.method = req.method 
-
-    if (req.body) {
-      options.body = JSON.stringify(req.body)
-    }
-  }
-
-  const response = await fetch(url, options)
-  const result = await response.json()
-
-  res.json(result)
-})
-
-app.listen(3010, () => console.log('Proxy server listening on port 3010!'))
+app.listen(PORT, () => console.log(`Proxy server listening on port ${PORT}!`))
