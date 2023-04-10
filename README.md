@@ -19,3 +19,5 @@ yarn install
 yarn build
 yarn preview
 ```
+
+.env - *конфигурационный файл*
