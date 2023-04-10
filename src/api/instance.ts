@@ -1,6 +1,8 @@
 import axios, { CreateAxiosDefaults } from 'axios'
 
-const PROXY_URL = import.meta.env['VITE_PROXY_URL']
+const PROXY_HOST = import.meta.env['VITE_PROXY_HOST']
+const PROXY_PORT = import.meta.env['VITE_PROXY_PORT']
+const PROXY_URL = `${PROXY_HOST}:${PROXY_PORT}/`
 const ACCESS_KEY = import.meta.env['VITE_ACCESS_KEY']
 
 const axiosConfig: CreateAxiosDefaults = {

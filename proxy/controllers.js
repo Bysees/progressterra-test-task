@@ -1,8 +1,10 @@
 import fetch from 'node-fetch'
+import dotenv from 'dotenv'
+dotenv.config()
 
-const API_URL = 'http://84.201.188.117'
-const TOKEN_PORT = 5021
-const SERVICE_PORT = 5003
+const API_URL = process.env.VITE_API_URL
+const TOKEN_PORT = process.env.VITE_TOKEN_PORT
+const SERVICE_PORT = process.env.VITE_SERVICE_PORT
 const ACCESS_TOKEN_ROUTE = '/api/v3/clients/accesstoken'
 
 export const authController = async (req, res, next) => {
@@ -15,7 +17,7 @@ export const authController = async (req, res, next) => {
   const url = `${API_URL}:${TOKEN_PORT}${req.url}`
 
   const headers = {
-    'AccessKey': req.headers['accesskey'],
+    AccessKey: req.headers['accesskey'],
     'Content-type': req.headers['content-type']
   }
 
@@ -35,7 +37,7 @@ export const serviceController = async (req, res, next) => {
   const url = `${API_URL}:${SERVICE_PORT}${req.url}`
 
   const headers = {
-    'AccessKey': req.headers['accesskey'],
+    AccessKey: req.headers['accesskey'],
     'Content-type': req.headers['content-type']
   }
 

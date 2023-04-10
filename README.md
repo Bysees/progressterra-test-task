@@ -1,30 +1,10 @@
-## Dev
-### Start proxy server 
+
+### start in development mode
 ```
-cd proxy
-yarn install
 yarn start
 ```
-
-### Start client
+### start in production mode
 ```
-cd client
-yarn install
-yarn dev
-```
-## Production
-
-### Build project 
-```
-cd client
-yarn install
-yarn build
-```
-
-### Start server
-```
-cd proxy
-yarn install
 yarn prod
 ```
 
