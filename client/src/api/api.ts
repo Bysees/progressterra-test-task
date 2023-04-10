@@ -1,7 +1,6 @@
 import type { IBonusInfo, ResultOperation } from '../models'
+import { http, httpAuth } from './instance'
 
-const PROXY_URL = import.meta.env['VITE_PROXY_URL']
-const ACCESS_KEY = import.meta.env['VITE_ACCESS_KEY']
 const CLIENT_ID = import.meta.env['VITE_CLIENT_ID']
 const DEVICE_ID = import.meta.env['VITE_DEVICE_ID']
 
@@ -14,8 +13,6 @@ type AuthenticateResponse = {
 }
 
 export const authenticate = async () => {
-  const url = `${PROXY_URL}${ACCESS_TOKEN_ROUTE}`
-
   const body = {
     idClient: CLIENT_ID,
     accessToken: '',
@@ -26,29 +23,18 @@ export const authenticate = async () => {
     sourceQuery: 0
   }
 
-  const headers = {
-    AccessKey: ACCESS_KEY,
-    'Content-type': 'application/json'
-  }
-
-  const response = await fetch(url, {
-    method: 'POST',
-    body: JSON.stringify(body),
-    headers
-  })
-
-  const { accessToken, result } = (await response.json()) as AuthenticateResponse
+  const response = await http.post<AuthenticateResponse>(ACCESS_TOKEN_ROUTE, body)
+  const { accessToken, result } = response.data
 
   if (result.status !== 0) {
     throw new Error(result.message!)
   }
 
   if (!accessToken) {
-    return false
+    throw new Error(`The server didn't provide Access Token`)
   }
 
-  localStorage.setItem('token', accessToken)
-  return true
+  return accessToken
 }
 
 type GetBonusInfoResponse = {
@@ -57,22 +43,9 @@ type GetBonusInfoResponse = {
 }
 
 export const getBonusInfo = async () => {
-  const ACCESS_TOKEN = localStorage.getItem('token')
+  const response = await httpAuth.get<GetBonusInfoResponse>(BONUS_INFO_ROUTE)
+  const { data, resultOperation } = response.data
 
-  const url = `${PROXY_URL}${BONUS_INFO_ROUTE}${ACCESS_TOKEN}`
-
-  const headers = {
-    AccessKey: ACCESS_KEY,
-    'Content-type': 'application/json'
-  }
-
-  const response = await fetch(url, {
-    method: 'GET',
-    headers
-  })
-
-  const { data, resultOperation } = (await response.json()) as GetBonusInfoResponse
-  
   if (resultOperation.status !== 0) {
     throw new Error(resultOperation.message!)
   }

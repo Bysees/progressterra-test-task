@@ -13,8 +13,9 @@ const AuthProvider: FC<Props> = ({ children }) => {
   useLayoutEffect(() => {
     const doAuth = async () => {
       try {
-        const authResult = await authenticate()
-        setIsAuth(authResult)
+        const accessToken = await authenticate()
+        localStorage.setItem('token', accessToken)
+        setIsAuth(true)
       } catch {
         setIsAuth(false)
       }
