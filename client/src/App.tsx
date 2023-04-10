@@ -1,19 +1,11 @@
-import { useLayoutEffect, useState } from 'react'
+import { useContext } from 'react'
 import { BonusInfo } from './BonusInfo'
-import { authenticate } from './api'
 import { ReactComponent as ArrowIcon } from './assets/icons/info.svg'
 import s from './App.module.scss'
+import { AuthContext } from './AuthProvider'
 
 const App = () => {
-  const [fetchStatus, setFetchStatus] = useState<'init' | 'loading' | 'success'>('init')
-
-  useLayoutEffect(() => {
-    ;(async () => {
-      setFetchStatus('loading')
-      await authenticate()
-      setFetchStatus('success')
-    })()
-  }, [])
+  const isAuth = useContext(AuthContext)
 
   return (
     <div>
@@ -29,8 +21,7 @@ const App = () => {
       </header>
       <main className={s.main}>
         <div className={s.container}>
-          {fetchStatus === 'loading' && <div>Loading...</div>}
-          {fetchStatus === 'success' && <BonusInfo />}
+          {isAuth && <BonusInfo />}
         </div>
       </main>
     </div>

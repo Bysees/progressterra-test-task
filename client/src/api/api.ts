@@ -37,13 +37,18 @@ export const authenticate = async () => {
     headers
   })
 
-  const { accessToken } = (await response.json()) as AuthenticateResponse
+  const { accessToken, result } = (await response.json()) as AuthenticateResponse
 
-  if (accessToken) {
-    localStorage.setItem('token', accessToken)
+  if (result.status !== 0) {
+    throw new Error(result.message!)
   }
 
-  return accessToken
+  if (!accessToken) {
+    return false
+  }
+
+  localStorage.setItem('token', accessToken)
+  return true
 }
 
 type GetBonusInfoResponse = {
@@ -66,7 +71,11 @@ export const getBonusInfo = async () => {
     headers
   })
 
-  const { data } = (await response.json()) as GetBonusInfoResponse
+  const { data, resultOperation } = (await response.json()) as GetBonusInfoResponse
+  
+  if (resultOperation.status !== 0) {
+    throw new Error(resultOperation.message!)
+  }
 
   return data
 }

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getBonusInfo } from './api'
 import { IBonusInfo } from './models'
 import { formatDate } from './utils/formatDate'
@@ -8,14 +8,18 @@ import s from './App.module.scss'
 
 const BonusInfo = () => {
   const [info, setInfo] = useState({} as IBonusInfo)
-  const [fetchStatus, setFetchStatus] = useState<'init' | 'loading' | 'success'>('init')
+  const [fetchStatus, setFetchStatus] = useState<'init' | 'loading' | 'error' | 'success'>('init')
 
   useEffect(() => {
     ;(async () => {
-      setFetchStatus('loading')
-      const data = await getBonusInfo()
-      setFetchStatus('success')
-      setInfo(data)
+      try {
+        setFetchStatus('loading')
+        const responseInfo = await getBonusInfo()
+        setInfo(responseInfo)
+        setFetchStatus('success')
+      } catch {
+        setFetchStatus('error')
+      }
     })()
   }, [])
 
@@ -23,7 +27,8 @@ const BonusInfo = () => {
 
   return (
     <div className={s['bonus-wrapper']}>
-      {fetchStatus === 'loading' && <div>Loading...</div>}
+      {fetchStatus === 'loading' && <div>Загрузка...</div>}
+      {fetchStatus === 'error' && <div>В данный момент сервис не доступен...</div>}
       {fetchStatus === 'success' && (
         <>
           <h2 className={s.title}>{currentQuantity} бонусов</h2>
