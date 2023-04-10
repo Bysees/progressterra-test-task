@@ -20,9 +20,7 @@ const App = () => {
         </div>
       </header>
       <main className={s.main}>
-        <div className={s.container}>
-          {isAuth && <BonusInfo />}
-        </div>
+        <div className={s.container}>{isAuth && <BonusInfo />}</div>
       </main>
     </div>
   )

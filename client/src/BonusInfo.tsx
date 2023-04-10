@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getBonusInfo } from './api'
-import { IBonusInfo } from './models'
+import type { IBonusInfo } from './models'
 import { formatDate } from './utils/formatDate'
 import { ReactComponent as FireIcon } from './assets/icons/fire.svg'
 import { ReactComponent as ArrowIcon } from './assets/icons/btn_arrow.svg'
