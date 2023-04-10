@@ -1,4 +1,4 @@
-import fetch from 'node-fetch'
+import axios from 'axios'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -24,16 +24,15 @@ export const authController = async (req, res, next) => {
   const options = {
     method: req.method,
     headers,
-    body: JSON.stringify(req.body)
+    data: req.body
   }
 
-  const response = await fetch(url, options)
-  const result = await response.json()
-
-  res.json(result)
+  const { data } = await axios(url, options)
+  
+  res.json(data)
 }
 
-export const serviceController = async (req, res, next) => {
+export const serviceController = async (req, res) => {
   const url = `${API_URL}:${SERVICE_PORT}${req.url}`
 
   const headers = {
@@ -45,16 +44,17 @@ export const serviceController = async (req, res, next) => {
     headers
   }
 
-  if (req.method === 'POST' || req.method === 'PUT') {
+  const methods = ['POST', 'PUT', 'PATCH']
+
+  if (methods.includes(req.method)) {
     options.method = req.method
 
     if (req.body) {
-      options.body = JSON.stringify(req.body)
+      options.data = req.body
     }
   }
 
-  const response = await fetch(url, options)
-  const result = await response.json()
+  const { data } = await axios(url, options)
 
-  res.json(result)
+  res.json(data)
 }
